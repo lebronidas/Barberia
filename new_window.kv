@@ -1,0 +1,215 @@
+##:kivy
+Manager:
+    primera_pantalla:
+    segunda_pantalla:
+    tercera_pantalla:
+
+
+<primera_pantalla>:
+    canvas:
+        Rectangle:
+            pos:self.pos
+            size:self.size
+            source:'opt/FONDO_APP.png'
+
+    name:'primera_pantalla'
+
+    nombre:nombre
+    precio:precio
+    propina:propina
+
+    BoxLayout:
+
+
+        rows:6
+        padding:50
+        spacing:15
+        orientation: 'vertical'
+        maximum_height:600
+
+
+        TextInput:
+            hint_text:'Nombre'
+            multiline:False
+            id:nombre
+            size_hint_y:None
+            height:100
+            
+        TextInput:
+            hint_text:'Precio'
+            multiline:False
+            id:precio
+            size_hint_y:None
+            height:100
+            
+        TextInput:
+            hint_text:'Propina'
+            multiline:False
+            id:propina
+            size_hint_y:None
+            height:100
+            
+        Button:
+            text:'Guardar'
+            size:(30,30)
+            bold:True
+            size_hint_y:None
+            height:100
+            on_press:root.guardar_cliente(),root.totales()
+            pos_hint:{'y':.3}
+
+        Label:
+            text:root.total_precio
+            id: precios
+            size_hint_y:None
+            height:80
+            text:''
+            font_size: 32
+
+        Label:
+            text:root.total_propina
+            id: propinas
+            size_hint_y:None
+            height:80
+            text:''
+            font_size: 32
+        Label:
+            id: error
+            font_size: 32
+            text:''
+            color: 1, 0, 0, 1
+
+    BoxLayout:
+        orientation:'horizontal'    
+        Button:
+            text: 'Historico'
+            font_size: 32
+            bold: True
+            size_hint_y:None
+            height:100
+            on_release: 
+                app.root.current= 'tercera_pantalla'
+                root.manager.transition.direction= 'right'
+        Button:
+            text: 'Filtrar'
+            font_size: 32
+            bold: True
+            size_hint_y:None
+            height:100
+            on_release: 
+                app.root.current= 'segunda_pantalla'
+                root.manager.transition.direction= 'left'
+
+<segunda_pantalla>:
+    name:'segunda_pantalla'
+    canvas:
+        Rectangle:
+            pos:self.pos
+            size:self.size
+            source:'opt/FONDO_APP.png'
+
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            padding:50
+            spacing:15
+            orientation: 'vertical'
+
+            Spinner:
+                id: lista
+                size_hint_y:None
+                height:100
+                bold:True
+                text:'Filtrar segun:'
+                values: ['Mas antiguo','Mas reciente','Mayor propina']
+                on_text:root.spinner_clicked(lista.text)
+
+            Label:
+                size_hint_y:None
+                height:100
+
+        BoxLayout:
+            orientation:'horizontal'
+            padding:60
+            spacing:0
+
+            Label:
+                id:nombre
+                text:''
+                font_size:32
+
+            Label:
+                id:precio
+                text:''
+                font_size:32
+                
+            Label:
+                id:propina
+                text:''
+                font_size:32
+
+        BoxLayout:
+            orientation:'vertical'    
+
+            Button:
+                size:(.5,.5)
+                text: 'Volver'
+                font_size: 32
+                bold: True
+                size_hint_y: None
+                height:100
+                on_release: 
+                    app.root.current= 'primera_pantalla'
+                    root.manager.transition.direction='right'
+
+<tercera_pantalla>:
+    canvas:
+        Rectangle:
+            pos:self.pos
+            size:self.size
+            source:'opt/FONDO_APP.png'
+    BoxLayout:
+        orientation:'vertical'
+        padding:50
+        spacing:15
+
+        
+        Label:
+            text:''
+            font_size:32
+            id:todos
+
+        Button:
+            text:'Vaciar base de datos'
+            font_size:32
+            bold: True
+            size_hint_y: None
+            height:100
+            on_release:root.borrarBBDD()
+
+        Button:
+            text:'Convertir a html'
+            font_size:32
+            bold: True
+            size_hint_y: None
+            height:100
+            on_release:root.convertirBBDD()
+
+
+        Label:
+            size_hint_y:None
+            height:50
+
+    BoxLayout:
+        orientation:'vertical'
+
+
+        Button:
+            text:'Volver'
+            font_size: 32
+            bold: True
+            size_hint_y: None
+            height:100
+            on_release: 
+                app.root.current= 'primera_pantalla'
+                root.manager.transition.direction='left'
